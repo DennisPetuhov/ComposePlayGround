@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,74 +69,70 @@ class ZvaviOctagon : Shape {
 
 @Preview(showBackground = true)
 @Composable
-fun AssOctaGonFun(modifier: Modifier = Modifier) {
+fun CompassOctagon(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.size(150.dp),
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.size(150.dp)) {
-            val shape = ZvaviOctagon()
-            val segments1 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_1)
-            val segments2 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_2)
-            val segments3 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_3)
-            val centerX = size.width / 2
-            val centerY = size.height / 2
-            val radius = size.height / ZvaviOctagonConstants.COMPASS_RADIUS_DIVISOR
-
-            segments3.forEachIndexed { index, segment ->
-                println(index)
-                drawPath(
-                    path = segment,
-                    color = if (index == 1) Color.Green else Color.Blue,
-                )
-                drawPath(
-                    path = segment,
-                    color = Color.Black,
-                    style = Stroke(width = 1.dp.toPx())
-                )
-            }
-            segments2.forEachIndexed { index, segment ->
-                drawPath(
-                    path = segment,
-                    color = if ((index+1) % 2 == 0) Color.White else Color.Blue,
-                )
-                drawPath(
-                    path = segment,
-                    color = Color.Black,
-                    style = Stroke(width = 1.dp.toPx())
-                )
-            }
-            segments1.forEachIndexed { index, segment ->
-                drawPath(
-                    path = segment,
-                    color = if (index % 2 == 0) Color.White else Color.Blue,
-                )
-                drawPath(
-                    path = segment,
-                    color = Color.Black,
-                    style = Stroke(width = 1.dp.toPx())
-                )
-            }
-            // Draw text outside the outer line
-            val labels = listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
-            for (i in labels.indices) {
-                val angle = Math.toRadians(i * ZvaviOctagonConstants.SEGMENT_ANGLE - 90) // Start from top (N)
-                val textX = centerX + radius * cos(angle).toFloat()
-                val textY = centerY + radius * sin(angle).toFloat() +
-                        if (labels[i] == "N") ZvaviOctagonConstants.NORTH_OFFSET.dp.toPx() // Adjust for "N"
-                        else 0f
-
-                drawContext.canvas.nativeCanvas.drawText(
-                    labels[i],
-                    textX,
-                    textY,
-                    Paint().apply {
-                        color = android.graphics.Color.BLACK
-                        textSize = ZvaviOctagonConstants.TEXT_SIZE
-                        textAlign = Paint.Align.CENTER
-                    }
-                )
-            }
+            drawCompassOctagon(size)
         }
+    }
+}
+
+private fun DrawScope.drawCompassOctagon(size: Size) {
+    val shape = ZvaviOctagon()
+    val segments1 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_1)
+    val segments2 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_2)
+    val segments3 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_3)
+    val centerX = size.width / 2
+    val centerY = size.height / 2
+    val radius = size.height / ZvaviOctagonConstants.COMPASS_RADIUS_DIVISOR
+
+    drawSegments(segments3) { index ->
+        if (index == 1) Color.Green else Color.Blue
+    }
+    
+    drawSegments(segments2) { index ->
+        if ((index + 1) % 2 == 0) Color.White else Color.Blue
+    }
+    
+    drawSegments(segments1) { index ->
+        if (index % 2 == 0) Color.White else Color.Blue
+    }
+    
+    drawCompassLabels(centerX, centerY, radius)
+}
+
+private fun DrawScope.drawSegments(segments: List<Path>, colorSelector: (Int) -> Color) {
+    segments.forEachIndexed { index, segment ->
+        drawPath(
+            path = segment,
+            color = colorSelector(index)
+        )
+        drawPath(
+            path = segment,
+            color = Color.Black,
+            style = Stroke(width = 1.dp.toPx())
+        )
+    }
+}
+
+private fun DrawScope.drawCompassLabels(centerX: Float, centerY: Float, radius: Float) {
+    val labels = listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
+    val paint = Paint().apply {
+        color = android.graphics.Color.BLACK
+        textSize = ZvaviOctagonConstants.TEXT_SIZE
+        textAlign = Paint.Align.CENTER
+    }
+    
+    labels.forEachIndexed { i, label ->
+        val angle = Math.toRadians(i * ZvaviOctagonConstants.SEGMENT_ANGLE - 90)
+        val textX = centerX + radius * cos(angle).toFloat()
+        val textY = centerY + radius * sin(angle).toFloat() +
+                if (label == "N") ZvaviOctagonConstants.NORTH_OFFSET.dp.toPx()
+                else 0f
+                
+        drawContext.canvas.nativeCanvas.drawText(label, textX, textY, paint)
     }
 }
