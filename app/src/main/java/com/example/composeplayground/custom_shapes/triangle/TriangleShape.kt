@@ -162,51 +162,51 @@ fun TriangleView1(modifier: Modifier = Modifier) {
         }
     }
 }
-
-//@Composable
-//fun TriangleView(modifier: Modifier = Modifier) {
-//    Box(
-//        modifier = modifier.fillMaxSize(),
-//        contentAlignment = androidx.compose.ui.Alignment.Center
-//    ) {
-//        Canvas(modifier = Modifier.size(300.dp)) {
-//            val outline = TriangleShape().createOutline(
-//                size = size,
-//                layoutDirection = LayoutDirection.Ltr,
-//                density = Density(density)
-//            )
-//            if (outline is Outline.Generic) {
-//                drawPath(
-//                    path = outline.path,
-//                    color = Color.Green
-//                )
-//            }
-//        }
-//        Canvas(modifier = Modifier.size(220.dp)) {
-//            val outline = TriangleShape().createOutline(
-//                size = size,
-//                layoutDirection = LayoutDirection.Ltr,
-//                density = Density(density)
-//            )
-//            if (outline is Outline.Generic) {
-//                drawPath(
-//                    path = outline.path,
-//                    color = Color.Yellow
-//                )
-//            }
-//        }
-//        Canvas(modifier = Modifier.size(140.dp)) {
-//            val outline = TriangleShape().createOutline(
-//                size = size,
-//                layoutDirection = LayoutDirection.Ltr,
-//                density = Density(density)
-//            )
-//            if (outline is Outline.Generic) {
-//                drawPath(
-//                    path = outline.path,
-//                    color = Color.Red
-//                )
-//            }
-//        }
-//    }
-//}
+@Preview
+@Composable
+fun TriangleView2(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = androidx.compose.ui.Alignment.Center
+    ) {
+        Canvas(modifier = Modifier.size(300.dp)) {
+            val outline = TriangleShape().createOutline(
+                size = size,
+                layoutDirection = LayoutDirection.Ltr,
+                density = Density(density)
+            )
+            if (outline is Outline.Generic) {
+                drawPath(
+                    path = outline.path,
+                    color = Color.Green
+                )
+            }
+        }
+        Canvas(modifier = Modifier.size(220.dp)) {
+            val outline = TriangleShape().createOutline(
+                size = size,
+                layoutDirection = LayoutDirection.Ltr,
+                density = Density(density)
+            )
+            if (outline is Outline.Generic) {
+                drawPath(
+                    path = outline.path,
+                    color = Color.Yellow
+                )
+            }
+        }
+        Canvas(modifier = Modifier.size(140.dp)) {
+            val outline = TriangleShape().createOutline(
+                size = size,
+                layoutDirection = LayoutDirection.Ltr,
+                density = Density(density)
+            )
+            if (outline is Outline.Generic) {
+                drawPath(
+                    path = outline.path,
+                    color = Color.Red
+                )
+            }
+        }
+    }
+}

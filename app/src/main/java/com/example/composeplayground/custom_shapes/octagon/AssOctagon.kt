@@ -2,6 +2,7 @@ package com.example.composeplayground.custom_shapes.octagon
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
@@ -48,7 +50,7 @@ class AssOctagon : Shape {
             val cY = centerX - cPointLength * sin(Math.toRadians(90.0)).toFloat()
 
             moveTo(centerX, centerY)
-            lineTo(aX, aY)
+//            lineTo(aX, aY)
             lineTo(cX, cY)
             lineTo(bX, bY)
             close()
@@ -79,7 +81,7 @@ class AssOctagon : Shape {
             val path = Path().apply {
                 moveTo(centerX, centerY)
                 lineTo(aX, aY)
-//                lineTo(cX, cY)
+                lineTo(cX, cY)
                 lineTo(bX, bY)
                 close()
             }
@@ -111,7 +113,7 @@ class AssOctagon : Shape {
             val path = Path().apply {
                 moveTo(centerX, centerY)
                 lineTo(aX, aY)
-                lineTo(cX, cY)
+//                lineTo(cX, cY)
                 lineTo(bX, bY)
                 close()
             }
@@ -131,17 +133,20 @@ fun AssOctaGonFun(modifier: Modifier = Modifier) {
         Canvas(modifier = Modifier.size(150.dp)) {
             val shape = AssOctagon()
             val segment = shape.createSegment(size)
-            val segments1 = shape.createSegmentsBeta(size, radiusDelimiter = 1f)
-            val segments2 = shape.createSegmentsBeta(size, radiusDelimiter = 2f)
-            val segments3 = shape.createSegmentsBeta(size, radiusDelimiter = 3f)
-
+            val segments1 = shape.createSegmentsBeta(size, radiusDelimiter = 1.3f)
+            val segments2 = shape.createSegmentsBeta(size, radiusDelimiter = 2.3f)
+            val segments3 = shape.createSegmentsBeta(size, radiusDelimiter = 3.3f)
+            val centerX = size.width / 2
+            val centerY = size.height / 2
+            val radius = size.height / 2.7f
 
 
 
             segments3.forEachIndexed { index, segment ->
+                println(index)
                 drawPath(
                     path = segment,
-                    color = if (index % 2 == 0) Color.White else Color.Blue,
+                    color = if (index == 1) Color.Green else Color.Blue,
 
                     )
                 drawPath(
@@ -166,8 +171,7 @@ fun AssOctaGonFun(modifier: Modifier = Modifier) {
             segments1.forEachIndexed { index, segment ->
                 drawPath(
                     path = segment,
-//                    color = if (index % 2 == 0) Color.White else Color.Blue,
-                    color =Color.Blue,
+                    color = if (index % 2 == 0) Color.White else Color.Blue,
                 )
                 drawPath(
                     path = segment,
@@ -176,31 +180,28 @@ fun AssOctaGonFun(modifier: Modifier = Modifier) {
                 )
 
             }
+            // Draw text outside the outer line
+            val labels = listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
+            for (i in labels.indices) {
+                val angle = Math.toRadians(i * 45.0 - 90) // Start from top (N)
+                val textX = centerX + radius * cos(angle).toFloat()
+                val textY = centerY + radius * sin(angle).toFloat() +
+                        if (labels[i] == "N") +5.dp.toPx() // Adjust for "N"
+//                        else if (labels[i] == "S") -0.dp.toPx() // Adjust for "S"
+                        else 0f
+
+                drawContext.canvas.nativeCanvas.drawText(
+                    labels[i],
+                    textX,
+                    textY,
+                    android.graphics.Paint().apply {
+                        color = android.graphics.Color.BLACK
+                        textSize = 32f
+                        textAlign = android.graphics.Paint.Align.CENTER
+                    }
+                )
+            }
         }
-
-
-        // Text at the top
-        Text(
-            text = "N",
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
-
-        // Text at the bottom
-        Text(
-            text = "S",
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-
-        // Text on the left
-        Text(
-            text = "W",
-            modifier = Modifier.align(Alignment.CenterStart)
-        )
-
-        // Text on the right
-        Text(
-            text = "E",
-            modifier = Modifier.align(Alignment.CenterEnd)
-        )
     }
+
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.composeplayground.custom_shapes.octagon.AssOctaGonFun
+import com.example.composeplayground.custom_shapes.triangle.TriangleView
 
 import com.example.composeplayground.ui.theme.ComposePlayGroundTheme
 
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ComposePlayGroundTheme {
+            ComposePlayGroundTheme{
                 Surface() {
 
 
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
 //                        NoShapeNoBorderTextField(value = "!!!!", onValueChange ={} )
 //                        ExitAlwaysBottomAppBarFixedVibrant()
 //                        NavigationBarSample()
-//                            TriangleView()
+                            TriangleView()
 //                            OctagonView(
 //                                colors = listOf(
 //                                    Color.Red,
@@ -70,7 +71,7 @@ class MainActivity : ComponentActivity() {
 //                            )
 //                            AlertDialogWithIconSample()
 //                            CustomModalWindowSample()
-                            AssOctaGonFun()
+//                            AssOctaGonFun()
 
                         }
                     }
