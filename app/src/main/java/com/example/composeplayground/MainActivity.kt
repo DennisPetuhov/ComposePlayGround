@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,8 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.composeplayground.custom_shapes.octagon.AssOctaGonFun
-import com.example.composeplayground.custom_shapes.triangle.TriangleView
+import com.example.composeplayground.modifier.shimmerEffect
+import com.example.composeplayground.toolBar.collapsingToolBar.CollapsingToolBar
 
 import com.example.composeplayground.ui.theme.ComposePlayGroundTheme
 
@@ -37,45 +36,53 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposePlayGroundTheme{
                 Surface() {
+//               Box(modifier=Modifier.fillMaxSize().shimmerEffect())
+                    CollapsingToolBar()
 
-
-                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
-                        ) {
-
+//                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                        Column(
+//                            modifier = Modifier.fillMaxSize(),
+//                            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+//                            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
+//                        ) {
 //
-//                            Spacer(modifier = Modifier
-//                                .padding(10.dp)
-//                                .weight(1f))
-//                    MyFocus()
-//                        MyComposable()
-//                        ScreenOnLaunched()
-//                        NoShapeNoBorderTextField(value = "!!!!", onValueChange ={} )
-//                        ExitAlwaysBottomAppBarFixedVibrant()
-//                        NavigationBarSample()
-                            TriangleView()
-//                            OctagonView(
-//                                colors = listOf(
-//                                    Color.Red,
-//                                    Color.Blue,
-//                                    Color.Green,
-//                                    Color.Red,
-//                                    Color.Blue,
-//                                    Color.Red,
-//                                    Color.Blue,
-//                                    Color.Black
-//                                )
+////
+////                            Spacer(modifier = Modifier
+////                                .padding(10.dp)
+////                                .weight(1f))
+////                    MyFocus()
+////                        MyComposable()
+////                        ScreenOnLaunched()
+////                        NoShapeNoBorderTextField(value = "!!!!", onValueChange ={} )
+////                        ExitAlwaysBottomAppBarFixedVibrant()
+////                        NavigationBarSample()
+//
+//                            Box(
+//                                modifier = Modifier
+//                                    .size(80.dp)
+//                                    .clip(CircleShape)
+//                                    .myShimmer()
 //                            )
-//                            AlertDialogWithIconSample()
-//                            CustomModalWindowSample()
-//                            AssOctaGonFun()
-
-                        }
-                    }
-                }
+//                            TriangleView()
+////                            OctagonView(
+////                                colors = listOf(
+////                                    Color.Red,
+////                                    Color.Blue,
+////                                    Color.Green,
+////                                    Color.Red,
+////                                    Color.Blue,
+////                                    Color.Red,
+////                                    Color.Blue,
+////                                    Color.Black
+////                                )
+////                            )
+////                            AlertDialogWithIconSample()
+////                            CustomModalWindowSample()
+////                            AssOctaGonFun()
+//
+//                        }
+//                    }
+//                }
             }
         }
     }
@@ -116,4 +123,4 @@ fun CustomModalWindowSample() {
             }
         }
     }
-}
+}}

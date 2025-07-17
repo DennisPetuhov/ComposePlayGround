@@ -4,8 +4,6 @@ package com.example.composeplayground.custom_shapes.triangle
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,13 +13,11 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.composeplayground.animation.shimmer.myShimmer
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -105,7 +101,7 @@ class TriangleShape : Shape {
 @Composable
 fun TriangleView(modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().myShimmer(),
         contentAlignment = androidx.compose.ui.Alignment.Center
     ) {
         Canvas(modifier = Modifier.size(300.dp)) {

@@ -44,14 +44,14 @@ class ZvaviOctagon : Shape {
         TODO("Not yet implemented")
     }
 
-    fun createSegments(size: Size, radiusDelimiter: Float): List<Path> = 
+    fun createSegments(size: Size, radiusDelimiter: Float): List<Path> =
         (0 until ZvaviOctagonConstants.SEGMENTS_COUNT).map { i ->
             val (centerX, centerY) = size.width / 2 to size.height / 2
             val radius = radiusDelimiter * size.height / ZvaviOctagonConstants.RADIUS_HEIGHT_DIVISOR
-            
-            val angle1 = Math.toRadians((i * ZvaviOctagonConstants.SEGMENT_ANGLE) + ZvaviOctagonConstants.INITIAL_ANGLE_OFFSET)
-            val angle2 = Math.toRadians(((i + 1) * ZvaviOctagonConstants.SEGMENT_ANGLE) + ZvaviOctagonConstants.INITIAL_ANGLE_OFFSET)
-            
+            val angle1 =
+                Math.toRadians((i * ZvaviOctagonConstants.SEGMENT_ANGLE) + ZvaviOctagonConstants.INITIAL_ANGLE_OFFSET)
+            val angle2 =
+                Math.toRadians(((i + 1) * ZvaviOctagonConstants.SEGMENT_ANGLE) + ZvaviOctagonConstants.INITIAL_ANGLE_OFFSET)
             Path().apply {
                 moveTo(centerX, centerY)
                 lineTo(
@@ -82,39 +82,26 @@ fun CompassOctagon(modifier: Modifier = Modifier) {
 
 private fun DrawScope.drawCompassOctagon(size: Size) {
     val shape = ZvaviOctagon()
-    val segments1 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_1)
-    val segments2 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_2)
-    val segments3 = shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_3)
+    val segments1 =
+        shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_1)
+    val segments2 =
+        shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_2)
+    val segments3 =
+        shape.createSegments(size, radiusDelimiter = ZvaviOctagonConstants.RADIUS_DELIMITER_3)
     val centerX = size.width / 2
     val centerY = size.height / 2
     val radius = size.height / ZvaviOctagonConstants.COMPASS_RADIUS_DIVISOR
 
-    drawSegments(segments3) { index ->
-        if (index == 1) Color.Green else Color.Blue
-    }
-    
-    drawSegments(segments2) { index ->
-        if ((index + 1) % 2 == 0) Color.White else Color.Blue
-    }
-    
-    drawSegments(segments1) { index ->
-        if (index % 2 == 0) Color.White else Color.Blue
-    }
-    
+    drawSegments(segments3) { index -> if (index == 1) Color.Green else Color.Blue }
+    drawSegments(segments2) { index -> if ((index + 1) % 2 == 0) Color.White else Color.Blue }
+    drawSegments(segments1) { index -> if (index % 2 == 0) Color.White else Color.Blue }
     drawCompassLabels(centerX, centerY, radius)
 }
 
 private fun DrawScope.drawSegments(segments: List<Path>, colorSelector: (Int) -> Color) {
     segments.forEachIndexed { index, segment ->
-        drawPath(
-            path = segment,
-            color = colorSelector(index)
-        )
-        drawPath(
-            path = segment,
-            color = Color.Black,
-            style = Stroke(width = 1.dp.toPx())
-        )
+        drawPath(path = segment, color = colorSelector(index))
+        drawPath(path = segment, color = Color.Black, style = Stroke(width = 1.dp.toPx()))
     }
 }
 
@@ -125,14 +112,12 @@ private fun DrawScope.drawCompassLabels(centerX: Float, centerY: Float, radius: 
         textSize = ZvaviOctagonConstants.TEXT_SIZE
         textAlign = Paint.Align.CENTER
     }
-    
     labels.forEachIndexed { i, label ->
         val angle = Math.toRadians(i * ZvaviOctagonConstants.SEGMENT_ANGLE - 90)
         val textX = centerX + radius * cos(angle).toFloat()
         val textY = centerY + radius * sin(angle).toFloat() +
                 if (label == "N") ZvaviOctagonConstants.NORTH_OFFSET.dp.toPx()
                 else 0f
-                
         drawContext.canvas.nativeCanvas.drawText(label, textX, textY, paint)
     }
 }
