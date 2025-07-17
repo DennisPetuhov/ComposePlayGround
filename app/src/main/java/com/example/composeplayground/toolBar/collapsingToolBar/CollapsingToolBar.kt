@@ -129,6 +129,7 @@ private fun Toolbar(scroll: ScrollState, headerHeightPx: Float, toolbarHeightPx:
         modifier = Modifier
             .background(Color(0xff026586))
             .alpha(collapseFraction)
+
         , // Fade in as we scroll
         navigationIcon = {
             IconButton(
